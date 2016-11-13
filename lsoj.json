@@ -1,0 +1,96 @@
+[
+{
+ "kind": "youtube#channelListResponse",
+ "etag": "\"sZ5p5Mo8dPpfIzLYQBF8QIQJym0/okUGfkiHCPqMw-cl8KDYqigOsLI\"",
+ "pageInfo": {
+  "totalResults": 1,
+  "resultsPerPage": 1
+ },
+ "items": [
+  {
+   "kind": "youtube#channel",
+   "etag": "\"sZ5p5Mo8dPpfIzLYQBF8QIQJym0/w4OkLpnQAPBOVjCAFF925MphhJ8\"",
+   "id": "UCgenS9h50bthhIcpaLKWAXA",
+   "snippet": {
+    "title": "Christopher Thomas",
+    "description": "",
+    "publishedAt": "2016-04-19T15:07:47.000Z",
+    "thumbnails": {
+     "default": {
+      "url": "https://yt3.ggpht.com/-3OvEGZBizlg/AAAAAAAAAAI/AAAAAAAAAAA/kmb7GBAMQVk/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+     },
+     "medium": {
+      "url": "https://yt3.ggpht.com/-3OvEGZBizlg/AAAAAAAAAAI/AAAAAAAAAAA/kmb7GBAMQVk/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+     },
+     "high": {
+      "url": "https://yt3.ggpht.com/-3OvEGZBizlg/AAAAAAAAAAI/AAAAAAAAAAA/kmb7GBAMQVk/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+     }
+    },
+    "localized": {
+     "title": "Christopher Thomas",
+     "description": ""
+    }
+   },
+   "contentDetails": {
+    "relatedPlaylists": {
+     "likes": "LLgenS9h50bthhIcpaLKWAXA",
+     "favorites": "FLgenS9h50bthhIcpaLKWAXA",
+     "uploads": "UUgenS9h50bthhIcpaLKWAXA",
+     "watchHistory": "HL",
+     "watchLater": "WL"
+    }
+   }
+  }
+ ]
+},
+
+{
+ "kind": "youtube#playlistListResponse",
+ "etag": "\"sZ5p5Mo8dPpfIzLYQBF8QIQJym0/NdqFyCFztDF9t-2jSo-vmMDfzwA\"",
+ "pageInfo": {
+  "totalResults": 1,
+  "resultsPerPage": 5
+ },
+ "items": [
+  {
+   "kind": "youtube#playlist",
+   "etag": "\"sZ5p5Mo8dPpfIzLYQBF8QIQJym0/aPOxUJ2M1RlJSNqmGa-HB5ZGgi0\"",
+   "id": "PLxYPNkpxR1CY0zl2CLZ3sdyjygE7ZMvFw",
+   "snippet": {
+    "publishedAt": "2016-04-30T00:02:29.000Z",
+    "channelId": "UCgenS9h50bthhIcpaLKWAXA",
+    "title": "Favorites",
+    "description": "",
+    "thumbnails": {
+     "default": {
+      "url": "https://i.ytimg.com/vi/ds_OQf42CuU/default.jpg",
+      "width": 120,
+      "height": 90
+     },
+     "medium": {
+      "url": "https://i.ytimg.com/vi/ds_OQf42CuU/mqdefault.jpg",
+      "width": 320,
+      "height": 180
+     },
+     "high": {
+      "url": "https://i.ytimg.com/vi/ds_OQf42CuU/hqdefault.jpg",
+      "width": 480,
+      "height": 360
+     }
+    },
+    "channelTitle": "Christopher Thomas",
+    "localized": {
+     "title": "Favorites",
+     "description": ""
+    }
+   },
+   "contentDetails": {
+    "itemCount": 3
+   },
+   "player": {
+    "embedHtml": "\u003ciframe width=\"640\" height=\"360\" src=\"http://www.youtube.com/embed/videoseries?list=PLxYPNkpxR1CY0zl2CLZ3sdyjygE7ZMvFw\" frameborder=\"0\" allowfullscreen\u003e\u003c/iframe\u003e"
+   }
+  }
+ ]
+}
+]
