@@ -13,6 +13,10 @@ var IMAGE_URLS = {
 		url: global.config.image + '/PaulaLoud.png',
 		exists: null
 	},
+	PATRICKANDANNAWAHLMEIER: {
+		url: global.config.image + '/PatrickAndAnnaWahlmeier.png',
+		exists: null
+	},
 	PATRICKWAHLMEIER: {
 		url: global.config.image + '/PatrickWahlmeier.png',
 		exists: null
@@ -29,12 +33,20 @@ var IMAGE_URLS = {
 		url: global.config.image + '/GaleKnoll.png',
 		exists: null
 	},
+	JRKNOLL: {
+		url: global.config.image + '/JRKnoll.png',
+		exists: null
+	},
 	BURTSHARPE: {
 		url: global.config.image + '/BurtSharpe.png',
 		exists: null
 	},
 	LYNNSHARPE: {
 		url: global.config.image + '/LynnSharpe.png',
+		exists: null
+	},
+	ELSIEWELCH: {
+		url: global.config.image + '/ElsieWelch.png',
 		exists: null
 	}
 };
@@ -46,31 +58,31 @@ _.each(IMAGE_URLS, function (obj) {
 //console.info(IMAGE_URLS);
 
 var getImage = function (filename) {
-	var matches = filename.match(/(\d{4}-\d{2}-\d{2} )([\w ]+)(?= - )/);
-	//console.info(matches);
-	if (matches.length >= 3) {
-		var match = matches[2];
-		// console.log(match);
-		switch (true) {
-			case /Tom Loud/i.test(match):
-				return IMAGE_URLS.TOMLOUD;
-			case /Paula Loud/i.test(match):
-				return IMAGE_URLS.PAULALOUD;
-			case /Patrick Wahlmeier/i.test(match):
-				return IMAGE_URLS.PATRICKWAHLMEIER;
-			case /Anna Wahlmeier/i.test(match):
-				return IMAGE_URLS.ANNAWAHLMEIER;
-			case /Trevor Harris/i.test(match):
-				return IMAGE_URLS.TREVORHARRIS;
-			case /Gale Knoll/i.test(match):
-				return IMAGE_URLS.GALEKNOLL;
-			case /Burt Sharpe/i.test(match):
-				return IMAGE_URLS.BURTSHARPE;
-			case /Lynn Sharpe/i.test(match):
-				return IMAGE_URLS.LYNNSHARPE;
-			default:
-			return {exists: false};
-		}
+	switch (true) {
+		case /Tom Loud/i.test(filename):
+			return IMAGE_URLS.TOMLOUD;
+		case /Paula Loud/i.test(filename):
+			return IMAGE_URLS.PAULALOUD;
+		case /J[\.]?[ ]?R[\.]? [kg]?noll/i.test(filename):
+			return IMAGE_URLS.JRKNOLL;
+		case /Patrick and Anna Wahlmeier/i.test(filename):
+			return IMAGE_URLS.PATRICKANDANNAWAHLMEIER;
+		case /Patrick Wahlmeier/i.test(filename):
+			return IMAGE_URLS.PATRICKWAHLMEIER;
+		case /Anna Wahlmeier/i.test(filename):
+			return IMAGE_URLS.ANNAWAHLMEIER;
+		case /Trevor Harris/i.test(filename):
+			return IMAGE_URLS.TREVORHARRIS;
+		case /Ga[y]?le [kg]?noll/i.test(filename):
+			return IMAGE_URLS.GALEKNOLL;
+		case /Burt Sharpe/i.test(filename):
+			return IMAGE_URLS.BURTSHARPE;
+		case /Lynn Sharpe/i.test(filename):
+			return IMAGE_URLS.LYNNSHARPE;
+		case /Elsie Welch/i.test(filename):
+			return IMAGE_URLS.ELSIEWELCH;
+		default:
+		return {exists: false};
 	}
 }
 
@@ -81,7 +93,7 @@ module.exports = function (grunt, options) {
 		var vidFiles = glob.sync(global.config.video + '/*.*');
 
 		var audFiles = _.filter(audFiles, function (file) {
-			return /^[\w ]+\d{4}-\d{2}-\d{2}[\w ]+- /.test(path.basename(file));
+			return /\.(mp3|m4a)$/i.test(path.basename(file));
 		});
 
 		var audNames = _.map(audFiles, function (val){
@@ -92,7 +104,13 @@ module.exports = function (grunt, options) {
 			return path.basename(val, '.mp4');
 		});
 
+		console.log('Audio Files: ', audNames);
+		console.log('Video Files: ', vidNames);
+
 		var diffNames = _.difference(audNames, vidNames);
+
+		console.log('Different Names: ', diffNames);
+
 		var diffIndexes = [];
 		_.each(diffNames, function (val) {
 			var idx = audNames.indexOf(val);
@@ -100,6 +118,8 @@ module.exports = function (grunt, options) {
 				diffIndexes.push(idx);
 			}
 		});
+
+		console.log('Different Indexes: ', diffIndexes);
 
 		var queue = [];
 		var dequeue = function () {
@@ -117,13 +137,15 @@ module.exports = function (grunt, options) {
 		var fileName;
 		var vidPath;
 		var imageFile;
+		var framecount = 0;
+		var frameregexp = /frame=/;
 		for (var i = 0; i < diffIndexes.length; ++i) {
 			index = diffIndexes[i];
 			audPath = audFiles[index];
 			fileName = audNames[index];
 			vidPath = global.config.video + '/' + fileName + '.mp4';
 			imageFile = getImage(fileName);
-			//console.info(imageFile);
+			console.info(imageFile);
 			if (!imageFile.exists) {
 				continue;
 			}
@@ -146,10 +168,22 @@ module.exports = function (grunt, options) {
 				.audioCodec('libfdk_aac')
 				.audioBitrate('192k')
 				.output(videoP)
-				.outputOptions('-shortest', '-tune', 'stillimage','-pix_fmt', 'yuv420p')
-				.on('start', function (cmd) {console.info('began with ' + cmd);})
+				.outputOptions('-shortest', '-tune', 'stillimage','-pix_fmt', 'yuv420p','-r', '24')
+				.on('start', function (cmd) {
+					console.info('began with ' + cmd);
+				})
 				.on('stderr', function (err) {
-					/error/i.test(err) && console.error('stderr: ' + err);
+					// /error/i.test(err) &&
+					if (frameregexp.test(err)) {
+						if (!framecount) {
+							console.log('Encoding ' + err);
+						}
+						framecount = (framecount + 1) % 20;
+					} else if (err.indexOf('overread') !== -1) {
+						return; // Don't print overread errors.
+					} else {
+						console.error('stderr: ' + err);
+					}
 				})
 				.on('error', function (err, stdout, stderr) {
 					console.error('Cannot process video: ' + err.message);done();
@@ -161,4 +195,3 @@ module.exports = function (grunt, options) {
 		dequeue();
 	});
 };
-
