@@ -3,9 +3,9 @@ var path = require('path');
 
 module.exports = function (grunt) {
 	global.config = {
-		image: path.join(__dirname, '../Image'),
-		audio: path.join(__dirname, '../Audio'),
-		video: path.join(__dirname, '../Video')
+		image: path.join(__dirname, 'Image'),
+		audio: path.join(__dirname, 'Audio'),
+		video: path.join(__dirname, 'Video')
 	};
 
 	var config = _.extend({},

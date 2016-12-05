@@ -48,6 +48,10 @@ var IMAGE_URLS = {
 	ELSIEWELCH: {
 		url: global.config.image + '/ElsieWelch.png',
 		exists: null
+	},
+	AARONBAKER: {
+		url: global.config.image + '/AaronBaker.png',
+		exists: null
 	}
 };
 
@@ -81,6 +85,8 @@ var getImage = function (filename) {
 			return IMAGE_URLS.LYNNSHARPE;
 		case /Elsie Welch/i.test(filename):
 			return IMAGE_URLS.ELSIEWELCH;
+		case /Aaron Baker/i.test(filename):
+			return IMAGE_URLS.AARONBAKER;
 		default:
 		return {exists: false};
 	}
