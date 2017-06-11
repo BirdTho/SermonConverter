@@ -5,6 +5,10 @@ var path = require('path');
 var fs = require('fs');
 
 var IMAGE_URLS = {
+	ALISEHEGLE: {
+		url: global.config.image + '/AliseHegle.png',
+		exists: null
+	},
 	TOMLOUD: {
 		url: global.config.image + '/TomLoud.png',
 		exists: null
@@ -87,6 +91,8 @@ var getImage = function (filename) {
 			return IMAGE_URLS.ELSIEWELCH;
 		case /Aaron Baker/i.test(filename):
 			return IMAGE_URLS.AARONBAKER;
+		case /Alise Hegle/i.test(filename):
+			return IMAGE_URLS.ALISEHEGLE;
 		default:
 		return {exists: false};
 	}
@@ -174,7 +180,7 @@ module.exports = function (grunt, options) {
 				.audioCodec('libfdk_aac')
 				.audioBitrate('192k')
 				.output(videoP)
-				.outputOptions('-shortest', '-tune', 'stillimage','-pix_fmt', 'yuv420p','-r', '24')
+				.outputOptions('-threads', '3', '-shortest', '-tune', 'stillimage','-pix_fmt', 'yuv420p','-r', '24')
 				.on('start', function (cmd) {
 					console.info('began with ' + cmd);
 				})
